@@ -1,7 +1,9 @@
 (ns le-guin.core
   (:require [clj-vxe.core :refer :all]
             [yaml.core :as yaml])
-  (:use [me.raynes.conch.low-level :as sh]))
+  (:use [me.raynes.conch.low-level :as sh]
+        [flatland.ordered.map])
+  (:gen-class))
 
 (def default-playbook [(ordered-map
                         :name "USE-method"

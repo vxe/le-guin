@@ -1,8 +1,10 @@
 #+BEGIN_SRC clojure :tangle core.clj
-(ns le-guin.core
-  (:require [clj-vxe.core :refer :all]
-            [yaml.core :as yaml])
-  (:use [me.raynes.conch.low-level :as sh]))
+    (ns le-guin.core
+      (:require [clj-vxe.core :refer :all]
+                [yaml.core :as yaml])
+      (:use [me.raynes.conch.low-level :as sh]
+            [flatland.ordered.map])
+      (:gen-class))
 
 #+END_SRC
 * constants

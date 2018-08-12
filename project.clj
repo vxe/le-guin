@@ -1,5 +1,8 @@
  (defproject le-guin "0.1.0-SNAPSHOT"
-   :description "FIXME: write description"
+   :description "Manipulate Ansible playbooks from clojure"
+   :url "https://github.com/vxe/le-guin"
+   :license {:name "Eclipse Public License"
+             :url "http://www.eclipse.org/legal/epl-v10.html"}
    :dependencies [[org.clojure/clojure "1.8.0"]
                   [metosin/compojure-api "1.1.11"]
                   [org.slf4j/slf4j-log4j12 "1.7.1"]
