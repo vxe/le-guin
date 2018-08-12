@@ -15,9 +15,9 @@ Hastily written library originally intended to implement Brendan Gregg's [[http:
   - add [[https://img.shields.io/clojars/v/le-guin.svg][latest version]] to you project, start a repl
 * Usage
 ** playbook execution from the repl
-   - the function ~le-guin~ takes a path to playbook and executes in on the host defined by calling ~generate-inventory~ for example, using an included example
+   - the function ~le-guin~ takes a path to playbook and executes in on the host(s) defined by calling ~generate-inventory~ for example, using an included example
      #+BEGIN_EXAMPLE clojure
-         le-guin.core>  (generate-inventory ["myhost.domain.com"])
+         le-guin.core>  (generate-inventory ["myhost2.domain.com" "myhost2.domain.com"])
          nil
          le-guin.core> (le-guin "./playbooks/use-method.yml")
      #+END_EXAMPLE
