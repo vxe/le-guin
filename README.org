@@ -23,8 +23,8 @@ Hastily written library originally intended to implement Brendan Gregg's [[http:
      #+END_EXAMPLE
 ** 'runbook' language for specifying shell commands sequences
    Very often all that is needed is to run a sequence of shell commands on a host or set of hosts. For this case yaml is cumbersome.  Runbooks are plaintext CSVs files which consist of:
-    1. natural language description of task
-    2. shell command to be run on an inventory host
+    1. natural language description of the command
+    2. shell command
     
     #+BEGIN_EXAMPLE
     check the date, date +%F
