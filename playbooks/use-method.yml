@@ -1,0 +1,48 @@
+- name: USE-method
+  hosts: custom
+  tags:
+  - custom
+  tasks:
+  - name: uptime - number of tasks (processes) wanting to run
+    shell: uptime
+    register: uptime
+  - debug: var=uptime.stdout_lines
+  - name: dmesg -T | grep -i error | grep -v usb - OS logging
+    shell: dmesg -T | grep -i error | grep -v usb
+    register: dmesg
+  - name: free - available memory
+    shell: free -mh
+    register: free
+  - debug: var=free.stdout_lines
+  - name: vmstat 1 1 - memory and cpu behavior statistics
+    shell: vmstat 1 1
+    register: vmstat
+  - debug: var=vmstat.stdout_lines
+  - name: mpstat -P ALL 1 1 - cpu statistics per core
+    shell: mpstat -P ALL 1 1
+    register: mpstat
+  - debug: var=mpstat.stdout_lines
+  - name: pidstat 1 5 - per process cpu utilization
+    shell: pidstat 1 1
+    register: pidstat
+  - debug: var=pidstat.stdout_lines
+  - name: iostat -xz 1 3 - disk utilization and queuing
+    shell: iostat -xz 1 1
+    register: iostat
+  - debug: var=iostat.stdout_lines
+  - name: sudo lsof -iTCP -sTCP:LISTEN - list of processes doing network IO
+    shell: sudo lsof -iTCP -sTCP:LISTEN
+    register: lsof
+  - debug: var=lsof.stdout_lines
+  - name: sar -n DEV 1 3 - network interface throughput
+    shell: sar -n DEV 1 1
+    register: sar_throughput
+  - debug: var=sar_throughput.stdout_lines
+  - name: sar -n TCP,ETCP 1 - TCP metrics
+    shell: sar -n TCP,ETCP 1 1
+    register: sar_tcp_stats
+  - debug: var=sar_tcp_stats.stdout_lines
+  - name: top - system overview for sanity checking
+    shell: top -b -n 1 | head -30
+    register: top
+  - debug: var=top.stdout_lines

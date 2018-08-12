@@ -1,0 +1,22 @@
+# -*- mode:org -*-
+#+TITLE: le-guin
+#+STARTUP: indent
+#+OPTIONS: toc:nil
+description
+** Overview :TOC:
+- [[#installation][Installation]]
+- [[#usage][Usage]]
+- [[#extending][Extending]]
+- [[#implementation][Implementation]]
+
+* Installation
+  Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/usemethod.html][USE method]] implemented as an ansible playbook.  
+* Usage
+  - one function is provided called ~use-method~ , which takes a vector of host names and executes the playbook on it
+  - the function le-guin will execute a custom playbook so long as its looked in the [[file:playbooks/][playbooks]] directory in the project root
+* Extending
+  - [ ] expose more ansible functionality
+  - [ ] generate playbooks on the fly
+  - [ ] find a less hacky when to generate the inventory, perhaps using [[https://github.com/pieterbreed/ansible-inventory-clj][this]]
+  - [ ] compojure and ring are included in the project, 'ansible as a service' is a possibility
+* [[file:src/le_guin/core.org][Implementation]]
