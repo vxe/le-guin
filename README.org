@@ -6,17 +6,66 @@ Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/use
 ** Overview :TOC:
 - [[#installation][Installation]]
 - [[#usage][Usage]]
+  - [[#playbook-execution-from-the-repl][playbook execution from the repl]]
+  - [[#runbook-language-for-specifying-shell-commands-sequences]['runbook' language for specifying shell commands sequences]]
 - [[#extending][Extending]]
 - [[#implementation][Implementation]]
 
 * Installation
   - require this in your repl
 * Usage
-  - one function is provided called ~use-method~ , which takes a vector of host names and executes the playbook on it
-    - [experimental] additionally the function ~le-guin~ will execute a custom playbook so long as its looked in the [[file:playbooks/][playbooks]] directory in the project root 
+** playbook execution from the repl
+   - the function ~le-guin~ takes a path to playbook and executes in on the host defined by calling ~generate-inventory~
+** 'runbook' language for specifying shell commands sequences
+   Very often all that is needed is to run a sequence of shell commands on host, for this case yaml is cumbersome.  Runbooks are plaintext CSVs files which consist of:
+    1. natural language description of task
+    2. shell command to be run on an inventory host
+    
+    #+BEGIN_EXAMPLE
+    check the date, date +%F
+    check the uptime, uptime
+    #+END_EXAMPLE
+
+    putting the above in a file troublshoot-host, to run simply evaluate the following
+    
+    #+BEGIN_EXAMPLE clojure
+    le-guin.core>  (generate-inventory ["myhost.domain.com"])
+    nil
+    le-guin.core>  (execute-runbook "troubleshoot-host")
+
+    PLAY [troubleshoot-host] *******************************************************
+
+    TASK [Gathering Facts] *********************************************************
+    ok: [myhost.domain.com]
+
+    TASK [check the date------> date +%F] ******************************************
+    changed: [myhost.domain.com]
+
+    TASK [debug] *******************************************************************
+    ok: [myhost.domain.com] => {
+        "ZRXCNAXZTQ.stdout_lines": [
+            "2018-08-12"
+        ]
+    }
+
+    TASK [check the uptime------> uptime] ******************************************
+    changed: [myhost.domain.com]
+
+    TASK [debug] *******************************************************************
+    ok: [myhost.domain.com] => {
+        "CLNJFRRVXC.stdout_lines": [
+            " 09:57:09 up 86 days,  6:12,  1 user,  load average: 1.97, 1.72, 1.57"
+        ]
+    }
+
+    PLAY RECAP *********************************************************************
+    myhost.domain.com : ok=5    changed=2    unreachable=0    failed=0   
+    #+END_EXAMPLE
+
+
 * Extending
   - [ ] expose more ansible functionality
-  - [ ] generate playbooks on the fly
+  - [X] generate playbooks on the fly
   - [ ] find a less hacky when to generate the inventory, perhaps using [[https://github.com/pieterbreed/ansible-inventory-clj][this]]
   - [ ] compojure and ring are included in the project, 'ansible as a service' is a possibility
 * [[file:src/le_guin/core.org][Implementation]]

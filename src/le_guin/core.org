@@ -94,7 +94,13 @@
 **** filesystem
 **** computed-state
 * utilities
-** generate playbook
+** random-string
+   #+BEGIN_SRC clojure :tangle core.clj
+     (defn rand-str [len]
+       (apply str (take len (repeatedly #(char (+ (rand 26) 65))))))
+
+   #+END_SRC
+** generate inventory
    #+BEGIN_SRC clojure :tangle core.clj
      (defn generate-inventory
        ([]
@@ -110,6 +116,35 @@
         (doseq [host hosts]
           (spit "hosts" (str host "\n") :append true))))
    #+END_SRC
+** generate a single playbook task
+   #+BEGIN_SRC clojure
+     (defn generic-task [command description task-id]
+       [(ordered-map
+         :name description
+         :shell command
+         :register task-id
+         )
+        (ordered-map
+         :debug (str "var=" task-id ".stdout_lines")
+         )])
+   #+END_SRC
+** generate single task playbook
+#+BEGIN_SRC clojure 
+(defn adhoc-playbook [playbook-name command description task-id]
+                (spit (str playbook-name ".yml")
+                      (yaml/generate-string [(ordered-map
+                                        :name playbook-name
+                                        :hosts "custom"
+                                        :tags ["custom"]
+                                        :tasks (generic-task command description task-id)
+                                        )
+                                       ]
+
+                                      :dumper-options {:flow-style :block})
+                      )
+                
+                )
+#+END_SRC
 * application
 ** initialization
     #+BEGIN_SRC clojure :tangle core.clj
@@ -136,4 +171,42 @@
           (generate-inventory hosts)
           (sh/stream-to-out (sh/proc "ansible-playbook" "-i" "hosts" "use-method.yml") :out)))
      #+END_SRC
-
+** convert a runbook specification into an executable ansible playbook
+   - [ ] implement a method to define a tasks, a task is a pair which consists of
+     - command/description/id tuple
+     - debug statement
+   - [ ]
+*** task template
+    #+BEGIN_SRC clojure :tangle core.clj
+      (defn generic-task [description command task-id]
+        [(ordered-map
+          :name description
+          :shell command
+          :register task-id)
+         (ordered-map
+          :debug (str "var=" task-id ".stdout_lines"))])
+    #+END_SRC
+*** generate a sequence of tasks
+    #+BEGIN_SRC clojure :tangle core.clj
+      (defn generate-task-list [tasks]
+        (into [] (flatten (for [task tasks]
+                            (generic-task (str (first task) "------>" (second task))  (second task) (rand-str 10))))))
+    #+END_SRC
+*** playbook template
+    #+BEGIN_SRC clojure :tangle core.clj
+      (defn adhoc-playbook-from-tasks [playbook-name task-list]
+        (spit (str playbook-name ".yml")
+              (yaml/generate-string [(ordered-map
+                                      :name playbook-name
+                                      :hosts "custom"
+                                      :tags ["custom"]
+                                      :tasks task-list)]
+                                    :dumper-options {:flow-style :block})))
+    #+END_SRC
+*** parse the runbook and execute the resulting playbook
+    #+BEGIN_SRC clojure :tangle core.clj
+      (defn execute-runbook [runbook]
+        (do
+          (adhoc-playbook-from-tasks runbook (generate-task-list (into [] (map #(clojure.string/split % #",") (clojure.string/split-lines (slurp runbook))))))
+          (le-guin (str runbook ".yml"))))
+    #+END_SRC

@@ -74,6 +74,9 @@
                                 (ordered-map
                                  :debug "var=top.stdout_lines")])])
 
+(defn rand-str [len]
+  (apply str (take len (repeatedly #(char (+ (rand 26) 65))))))
+
 (defn generate-inventory
   ([]
    (let [host-list (do (println "enter a comma seperated list of hosts: ")
@@ -106,3 +109,29 @@
   ([hosts]
    (generate-inventory hosts)
    (sh/stream-to-out (sh/proc "ansible-playbook" "-i" "hosts" "use-method.yml") :out)))
+
+(defn generic-task [description command task-id]
+  [(ordered-map
+    :name description
+    :shell command
+    :register task-id)
+   (ordered-map
+    :debug (str "var=" task-id ".stdout_lines"))])
+
+(defn generate-task-list [tasks]
+  (into [] (flatten (for [task tasks]
+                      (generic-task (str (first task) "------>" (second task))  (second task) (rand-str 10))))))
+
+(defn adhoc-playbook-from-tasks [playbook-name task-list]
+  (spit (str playbook-name ".yml")
+        (yaml/generate-string [(ordered-map
+                                :name playbook-name
+                                :hosts "custom"
+                                :tags ["custom"]
+                                :tasks task-list)]
+                              :dumper-options {:flow-style :block})))
+
+(defn execute-runbook [runbook]
+  (do
+    (adhoc-playbook-from-tasks runbook (generate-task-list (into [] (map #(clojure.string/split % #",") (clojure.string/split-lines (slurp runbook))))))
+    (le-guin (str runbook ".yml"))))

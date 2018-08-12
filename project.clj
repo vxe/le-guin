@@ -1,4 +1,4 @@
- (defproject le-guin "0.1.0-SNAPSHOT"
+ (defproject le-guin "0.2.0-SNAPSHOT"
    :description "Manipulate Ansible playbooks from clojure"
    :url "https://github.com/vxe/le-guin"
    :license {:name "Eclipse Public License"
