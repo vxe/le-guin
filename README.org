@@ -13,7 +13,7 @@ Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/use
   - require this in your repl
 * Usage
   - one function is provided called ~use-method~ , which takes a vector of host names and executes the playbook on it
-  - the function le-guin will execute a custom playbook so long as its looked in the [[file:playbooks/][playbooks]] directory in the project root
+    - [experimental] additionally the function ~le-guin~ will execute a custom playbook so long as its looked in the [[file:playbooks/][playbooks]] directory in the project root 
 * Extending
   - [ ] expose more ansible functionality
   - [ ] generate playbooks on the fly
