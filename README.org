@@ -2,7 +2,7 @@
 #+TITLE: le-guin
 #+STARTUP: indent
 #+OPTIONS: toc:nil
-description
+Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/usemethod.html][USE method]] implemented as an ansible playbook.  
 ** Overview :TOC:
 - [[#installation][Installation]]
 - [[#usage][Usage]]
@@ -10,7 +10,7 @@ description
 - [[#implementation][Implementation]]
 
 * Installation
-  Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/usemethod.html][USE method]] implemented as an ansible playbook.  
+  - require this in your repl
 * Usage
   - one function is provided called ~use-method~ , which takes a vector of host names and executes the playbook on it
   - the function le-guin will execute a custom playbook so long as its looked in the [[file:playbooks/][playbooks]] directory in the project root
