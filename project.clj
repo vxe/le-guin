@@ -11,13 +11,15 @@
                   [cheshire "5.8.0"]
                   [io.forward/yaml "1.0.8"]
                   [com.cemerick/pomegranate "0.4.0"]
-                  [clj-vxe "0.1.0-SNAPSHOT"]]
+                  [clj-vxe "0.1.0-SNAPSHOT"]
+                  [org.flatland/ordered "1.5.6"]]
    :plugins [[lein-ring "0.12.0"]]
    :ring {:handler le-guin.handler/app
           :nrepl {:start? true
                   :port 9003
                   }}
    :uberjar-name "server.jar"
+   :aot :all
    :repl-options {:init-ns le-guin.core}
    :main le-guin.handler
    :profiles {:dev {:dependencies [[javax.servlet/javax.servlet-api "3.1.0"]]
