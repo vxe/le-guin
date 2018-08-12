@@ -12,10 +12,7 @@ Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/use
 - [[#implementation][Implementation]]
 
 * Installation
-  - require this in your repl
-    [[https://img.shields.io/clojars/v/le-guin.svg][Clojars Project]]
-
-    
+  - add [[https://img.shields.io/clojars/v/le-guin.svg][latest version]] to you project, start a repl
 * Usage
 ** playbook execution from the repl
    - the function ~le-guin~ takes a path to playbook and executes in on the host defined by calling ~generate-inventory~ for example, using an included example
