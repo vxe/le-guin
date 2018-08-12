@@ -2,7 +2,7 @@
 #+TITLE: le-guin
 #+STARTUP: indent
 #+OPTIONS: toc:nil
-Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/usemethod.html][USE method]] implemented as an ansible playbook.  Evolving into clojure ansible library
+Hastily written library originally intended to implement Brendan Gregg's [[http://www.brendangregg.com/usemethod.html][USE method]] implemented through ansible playbook.  Now evolving into a libray for calling ansible from clojure.
 ** Overview :TOC:
 - [[#installation][Installation]]
 - [[#usage][Usage]]
