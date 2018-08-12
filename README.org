@@ -31,7 +31,7 @@ Hastily written library originally intended to implement Brendan Gregg's [[http:
     check the uptime, uptime
     #+END_EXAMPLE
 
-    putting the above in a file troublshoot-host, to run simply evaluate the following
+    putting the above in a file called /troublshoot-host/, execution would be performed as follows
     
     #+BEGIN_EXAMPLE clojure
     le-guin.core>  (generate-inventory ["myhost.domain.com"])
