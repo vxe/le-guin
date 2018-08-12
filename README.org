@@ -13,9 +13,15 @@ Hastily written library to run Brendan Gregg's [[http://www.brendangregg.com/use
 
 * Installation
   - require this in your repl
+    [[https://img.shields.io/clojars/v/le-guin.svg][https://clojars.org/le-guin]]
 * Usage
 ** playbook execution from the repl
-   - the function ~le-guin~ takes a path to playbook and executes in on the host defined by calling ~generate-inventory~
+   - the function ~le-guin~ takes a path to playbook and executes in on the host defined by calling ~generate-inventory~ for example, using an included example
+     #+BEGIN_EXAMPLE clojure
+         le-guin.core>  (generate-inventory ["myhost.domain.com"])
+         nil
+         le-guin.core> (le-guin "./playbooks/use-method.yml")
+     #+END_EXAMPLE
 ** 'runbook' language for specifying shell commands sequences
    Very often all that is needed is to run a sequence of shell commands on host, for this case yaml is cumbersome.  Runbooks are plaintext CSVs files which consist of:
     1. natural language description of task
