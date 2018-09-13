@@ -3,6 +3,9 @@
 #+STARTUP: indent
 #+OPTIONS: toc:nil
 Hastily written library originally intended to implement Brendan Gregg's [[http://www.brendangregg.com/usemethod.html][USE method]] as ansible playbooks.  Now evolving into a libray for calling ansible from clojure.
+
+#+ATTR_HTML: title="CircleCI"
+[[file:https://circleci.com/gh/vxe/le-guin][https://circleci.com/gh/vxe/le-guin.svg?style=svg]]
 ** Overview :TOC:
 - [[#installation][Installation]]
 - [[#usage][Usage]]
